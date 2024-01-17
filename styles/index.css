@@ -1,0 +1,145 @@
+/* Tùy chỉnh CSS cho Navbar */
+.navbar-brand img {
+  height: 40px; /* Điều chỉnh chiều cao của logo */
+  margin-right: 10px; /* Khoảng cách giữa logo và văn bản */
+}
+
+.navbar-right {
+  margin-left: auto;
+}
+
+.product-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+.search {
+  position: relative;
+}
+.search button {
+  position: absolute;
+  right: 0;
+  border: none;
+}
+.search button:hover,
+.cart-icon:hover > i {
+  color: #0d6efd;
+  background-color: transparent;
+}
+.cart-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px; /* Adjust icon size as needed */
+  color: #333; /* Adjust icon color as needed */
+  text-decoration: none;
+  font-weight: 600;
+}
+.cart-icon .count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(30%, -100%);
+  padding: 5px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  background-color: red;
+  color: #fff;
+  /* text-align: center; */
+  /* box-sizing: border-box; */
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon i {
+  margin-right: 5px; /* Adjust spacing between icon and text */
+}
+
+i.fas {
+  font-size: 16px;
+}
+.navbar-nav {
+  align-items: center;
+}
+
+.list-item {
+  list-style-type: none;
+  padding-left: 15px;
+  padding: 0 10px;
+}
+
+.list-item .item {
+  height: 36px;
+  cursor: pointer;
+  line-height: 200%;
+  padding: 0 10px;
+  border-radius: 4px;
+}
+.list-item .item:hover {
+  background-color: rgba(39, 39, 42, 0.12);
+}
+/* -------------------------------------- category------------------------------------------------ */
+.list-item.category {
+  color: rgb(56, 56, 61);
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10px 15px;
+}
+.list-item.category > span{
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* -------------------------------------- product ------------------------------------------------ */
+.card-body {
+  padding: 10px;
+}
+.card-body .text-muted {
+  text-align: left;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 500;
+  color: rgb(39, 39, 42);
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+.product{
+  cursor: pointer;
+}
+.list-product .product .product__img {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  background-image: url("https://placehold.it/200x200");
+  background-size: cover;
+  background-position: center;
+}
+.product .card-title {
+  overflow: hidden;
+  white-space: break-spaces;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  color: rgb(39, 39, 42);
+  margin: 0px;
+  word-break: break-word;
+}
+.product .card-text {
+  overflow: hidden;
+  white-space: break-spaces;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 150%;
+  color: rgb(39, 39, 42);
+  word-break: break-word;
+}
+
+.product a {
+  float: right;
+}
