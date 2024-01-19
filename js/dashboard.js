@@ -6,10 +6,29 @@ async function a(){
   const r = await fetch('https://learn-firebase-aa896-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
   return await r.json()
 }
-a().then(data=>console.log(data))
 toggleNavBtn.addEventListener("click", (event) => {
   toggleNav();
 });
+
+function toggleNav() {
+  if (navBar.classList.contains("nav-min")) {
+    openNav();
+  } else {
+    closeNav();
+  }
+}
+
+const openNav = () => {
+  navBar.classList.remove("nav-min");
+  navBar.classList.add("nav-max");
+  rootStyle.setProperty("--width-nav", "300px");
+};
+
+const closeNav = () => {
+  navBar.classList.remove("nav-max");
+  navBar.classList.add("nav-min");
+  rootStyle.setProperty("--width-nav", "80px");
+};
 
 // // Medias
 // const phone = window.matchMedia("(width <= 480px)")
