@@ -22,7 +22,7 @@ const handletotalSales = async () => {
   const selleds = listProduct.reduce(
     (initValue, curValue) => {
       return {
-        sold: initValue.sold + curValue.selled,
+        sold: initValue.sold + Number(curValue.selled),
         totalSales: initValue.totalSales + curValue.price * curValue.selled,
       };
     },
@@ -54,7 +54,7 @@ const renderTopSelling = async () => {
         </div>
         <div class="ms-3">
           <span class="small mb-1">${product.name}</span>
-          <h5 class="mb-0"><strong>${product.selled}</strong> sản phẩm</h5>
+          <h5 class="mb-0"><strong>${Number(product.selled)}</strong> sản phẩm</h5>
         </div>
       </div>
      </div>
@@ -87,7 +87,7 @@ const renderTopRevenue = async () => {
           <h6 class="mb-0">${product.name}</h6>
         </div>
         <small>Giá: <strong>${product.price.toLocaleString()}</strong></small>
-        <small>Bán: <strong>${product.selled}</strong></small>
+        <small>Bán: <strong>${Number(product.selled)}</strong></small>
       </div>
     </div>
     <div class="text-end">
@@ -109,8 +109,8 @@ const renderTopCategories = async () => {
     );
     const totalSalesInCategory = productsInCategory.reduce((total, product) => {
       return {
-        sold: total.sold + product.selled,
-        totalSales: total.totalSales + product.price * product.selled,
+        sold: total.sold + Number(product.selled),
+        totalSales: total.totalSales + product.price * Number(product.selled),
       };
     },
     { sold: 0, totalSales: 0 });
