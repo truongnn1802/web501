@@ -61,7 +61,7 @@ function createTableRow(order) {
   completeSpan.className = "show-detail";
   completeSpan.style = "cursor:pointer;color:var(--complete-color);padding:0 10px";
   completeSpan.textContent = "Hoàn thành";
-  completeSpan.addEventListener("click", () => handleComplete(order.id));
+  completeSpan.addEventListener("click", () => handleComplete(order));
   detailCell.appendChild(detailSpan);
   detailCell.appendChild(completeSpan);
   row.appendChild(detailCell);
@@ -77,10 +77,10 @@ function showModal(order) {
   }
 }
 
-const handleComplete = async (id) => {
-  console.log(id);
-  renModalComplete(id);
-  if (id) {
+const handleComplete = async (order) => {
+  console.log( order.status);
+  renModalComplete(order.id);
+  if (order.id && order.status == "pending") {
     const showModalDelete = document.getElementById("completemd");
     showModalDelete.checked = true;
   }
