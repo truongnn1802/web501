@@ -103,7 +103,7 @@ const handleShowProducts = (listProduct) => {
   for (let key in listProduct) {
     products += ` 
       <div class="mb-3" style="width:200px">
-      <a href="/product-detail.html"> 
+      <a href="./product-detail.html"> 
     <div class="card product-card product" data-id="${listProduct[key].id}">
 
       <div class="product__img" style="height:200px">
