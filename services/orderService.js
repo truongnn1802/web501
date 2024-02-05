@@ -1,31 +1,25 @@
-import { showToast } from "../app.js";
-import {
-  filterData,
-  getData,
-  postData,
-  removeData,
-} from "../constants/FirebaseContants.js";
+
+import { Http } from "../constants/config.js";
 import Order from "../models/orderModel.js";
 
-class OrderServices {
+class OrderServices extends Http{
   constructor() {
-    this.collectionName = "order";
+    super("order")
   }
-  insertProduct = async (
+  insert = async (
     customer_name,
     customer_address,
     customer_phone,
     status
   ) => {
     const order = new Order(
-      null,
       customer_name,
       customer_address,
       customer_phone,
       new Date().toLocaleString(),
       status
     );
-    const res = postData(this.collectionName, order, () => {
+    const res =await super.post( order, true, () => {
       document.querySelector(
         "body"
       ).innerHTML = `<div class="success-container">
@@ -38,13 +32,12 @@ class OrderServices {
     console.log(res);
     return res;
   };
-  getProducts = async (id = null) => {
-    return id
-      ? await getData(this.collectionName + "/" + id)
-      : await getData(this.collectionName);
-  };
-  getProductCate = async (valueName) => {
-    const res = await filterData(this.collectionName, "cate_id", valueName);
+  update = async (id,data)=>{
+    const res = await super.update(id,{...data,status:'complete'})
+    return res
+  }
+  query = async (query) => {
+    const res = await super.query(query, false);
     return res;
   };
   removeProduct = (id) => {

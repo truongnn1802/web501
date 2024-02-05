@@ -4,16 +4,59 @@ import ShopCartService from "../services/shopCartService.js";
 const productService = new ProductServices();
 const shopCartService = new ShopCartService();
 const productDetail = JSON.parse(localStorage.getItem("product"));
-
+let currentProducts = [];
 document.addEventListener("DOMContentLoaded", (event) => {
   showDetailProduct();
   handleGetProductsCate();
   handleCountShopCart();
+  handleSearch();
+  handleFilter();
+  handleSort();
 });
 const handleCountShopCart = async () => {
   document.querySelector(".count").textContent = Object.keys(
-    await shopCartService.getShopCart()
+    await shopCartService.getAll()
   ).length;
+};
+
+const handleSearch = async () => {
+  const divSearch = document.querySelector(".search");
+  divSearch.querySelector("button").addEventListener("click", async () => {
+    const products = await productService.getProductSearch(
+      divSearch.querySelector("#input-search").value
+    );
+    currentProducts = products;
+    handleShowProducts(products);
+  });
+};
+
+const handleFilter = async () => {
+  const divFilter = document.querySelector("#productType");
+
+  divFilter.onchange = async function () {
+    const op = this.options[this.selectedIndex];
+    const products = await productService.getProductQuery({
+      ...query,
+      _sort: divFilter.value,
+    });
+    currentProducts = products;
+    handleShowProducts(products);
+  };
+};
+const handleSort = async () => {
+  const divFilter = document.querySelector("#sortPrice");
+  divFilter.onchange = async function () {
+    const op = this.options[this.selectedIndex];
+    const splitValue = op.textContent.split(" - ");
+    const products = currentProducts.filter((product) => {
+      if ((splitValue[0] <= product.price) & (splitValue[1] >= product.price)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    handleShowProducts(products);
+  };
 };
 
 const showDetailProduct = async () => {
@@ -34,8 +77,9 @@ const showDetailProduct = async () => {
               Number(productDetail.quantity) - Number(productDetail.selled)
             }</span>
             <div class="message" style="color:red;font-size:14px">${
-              Number(productDetail.quantity) - Number(productDetail.selled) <= 0 ? 
-              "Sản phẩm hiện đang hết hàng" : ""
+              Number(productDetail.quantity) - Number(productDetail.selled) <= 0
+                ? "Sản phẩm hiện đang hết hàng"
+                : ""
             }</div>
         </div>
         <div>
@@ -55,19 +99,16 @@ const showDetailProduct = async () => {
       document.querySelector(".message").textContent =
         "Số sản phẩm đặt mua phải lớn hơn 0 và nhỏ hơn số sản phẩm hiện có";
     } else {
-      await shopCartService.insertShopCart(
-        productDetail.key,
-        inputNumber.value
-      );
+      await shopCartService.insert(productDetail.key, inputNumber.value);
       handleCountShopCart();
     }
   });
 };
 
 const handleGetProductsCate = async () => {
-  let listProductCate = await productService.getProductCate(
-    productDetail.cate_id
-  );
+  let listProductCate = await productService.getProductQuery({
+    cate_id: productDetail.cate_id,
+  });
   let products = ``;
   for (let key in listProductCate) {
     products += ` 
@@ -108,6 +149,12 @@ const handleGetProductsCate = async () => {
           ...listProductCate[card.getAttribute("data-id")],
         })
       );
+    });
+    const iShopCart = card.querySelector("a i");
+    iShopCart.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await shopCartService.insert(iShopCart.getAttribute("data-id"), 1);
+      handleCountShopCart();
     });
   });
 };

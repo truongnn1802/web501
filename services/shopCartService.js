@@ -1,24 +1,24 @@
-import { showToast } from "../app.js";
-import { getData, postData, removeData } from "../constants/FirebaseContants.js";
+import { Http } from "../constants/config.js";
 import ShopCart from "../models/shopcartModel.js";
 
-class ShopCartService {
+class ShopCartService extends Http {
   constructor() {
-    this.collectionName = "shopCart";
+    super("shop-cart");
   }
-  insertShopCart = (idProduct,amount) => {
-    const shopCart = new ShopCart(null, idProduct,amount);
-    const res = postData(this.collectionName, shopCart,showToast("Thêm thành công"));
+  insert = async (idProduct, amount) => {
+    const shopCart = new ShopCart(idProduct, amount);
+    const res = await super.post(shopCart, "Thêm thành công");
+    console.log(res);
     return res;
   };
-  getShopCart = async () => {
-    const res = await getData(this.collectionName);
+  getAll = async () => {
+    const res = await super.get();
     return res;
   };
-  removeShopCart = (id) => {
-    const res = removeData(this.collectionName,id)
-    return res
-  }
+  remove =async (id) => {
+    const res = await super.remove(id);
+    return res;
+  };
 }
 
 export default ShopCartService;

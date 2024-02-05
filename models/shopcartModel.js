@@ -1,6 +1,5 @@
 export default class shopCart{
-    constructor(idCart,idProduct,amount){
-        this.idCart = idCart;
+    constructor(idProduct,amount){
         this.idProduct = idProduct;
         this.amount = amount;
     }

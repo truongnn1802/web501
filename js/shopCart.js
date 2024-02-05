@@ -1,4 +1,3 @@
-import { convertDbToList } from "../app.js";
 import OrderDetailServices from "../services/orderDetailService.js";
 import OrderServices from "../services/orderService.js";
 import ProductServices from "../services/productService.js";
@@ -27,24 +26,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
       customName.style = "border-color:#c0c0c0;height: 40px;";
       customAddress.style = "border-color:#c0c0c0;height: 40px;";
       customPhoneN.style = "border-color:#c0c0c0;height: 40px;";
-      const idOrder = await orderService.insertProduct(
+      const idOrder = await orderService.insert(
         customName.value,
         customAddress.value,
         customPhoneN.value,
         "pending"
       );
-      for (let product of arrChoose) {
-        const prd = await productService.getProduct(product.idProduct);
-        productService.updateProduct(product.idProduct, {
+      for (let order of arrChoose) {
+        const prd = await productService.getProduct(order.idProduct);
+        productService.update(order.idProduct, {
           ...prd,
-          selled: prd.selled + product.amount,
+          selled: prd.selled + order.amount,
         });
-        await shopCartService.removeShopCart(product.key);
-        orderDetailService.insertOrderDetail(
-          idOrder,
-          product.idProduct,
-          product.amount
-        );
+        await shopCartService.remove(order.id);
+        orderDetailService.insert(idOrder.id, order.idProduct, order.amount);
         handleProductsAdd();
       }
       pay = 0;
@@ -77,12 +72,12 @@ const showInfoPayment = async () => {
 };
 
 const handleProductsAdd = async () => {
-  let listProduct = convertDbToList(await shopCartService.getShopCart());
+  let listProduct = await shopCartService.getAll();
   const newProduct = [];
   let products = ``;
   for (let prd of listProduct) {
     let product = await productService.getProduct(prd.idProduct);
-    newProduct.push({ ...prd, ...product });
+    newProduct.push({ ...product, ...prd });
     products += `   
     <tr>
     <td><input type='checkbox' data-id=${prd.key} style="display:inline"/></td>
@@ -98,8 +93,8 @@ const handleProductsAdd = async () => {
       product.price * prd.amount
     ).toLocaleString()}đ</td>
     <td class="text-truncate"><i class="fas fa-trash" data-id=${
-      prd.key
-    }></i></td>
+      prd.id
+    } style='cursor:pointer'></i></td>
   </tr>
     `;
   }
@@ -132,5 +127,50 @@ const handleProductsAdd = async () => {
       }
       showInfoPayment();
     });
+  });
+
+  document.querySelectorAll("td > i").forEach((cb) => {
+    cb.addEventListener("click", () => {
+      // Kiểm tra điều kiện trước khi gọi API xóa
+      renModalDelete(cb.getAttribute("data-id"));
+      if (cb.getAttribute("data-id")) {
+        const showModalDelete = document.getElementById("deleteDm");
+        showModalDelete.checked = true;
+      }
+    });
+  });
+};
+
+const renModalDelete = async (id) => {
+  const newId = `m-${id}`;
+  const div = document.createElement("div");
+  div.classList.add(`${newId}`);
+  div.innerHTML = ` 
+    <input type="checkbox" id="deleteDm" class="toggle-modal"/>
+    <div class="overlay"></div>
+    <div class="modal-form">
+      <label for="deleteDm" class="close-btn fas fa-times" title="close"></label>
+      <div class="p" style="margin: 20px; font-size: 18px; text-align: center;">Bạn chắc chắn muốn xóa?</div>
+      <div class="btn">
+        <button type="button" id="btn-delete" style="background-color: red;">Xóa</button>
+      </div>
+    </div>
+  `;
+  document.querySelector("body").appendChild(div);
+  // Xác nhận sự kiện "Xóa" (Nếu có API gọi ở đây)
+  div.querySelector("#btn-delete").addEventListener("click", async () => {
+    await shopCartService.remove(id);
+    handleProductsAdd();
+    // Gọi API xóa ở đây nếu cần
+    // Sau khi hoàn thành, có thể đóng modal bằng removeModal
+    document
+      .querySelector("body")
+      .removeChild(document.querySelector(`.${newId}`));
+  });
+  // Xác nhận sự kiện "Đóng Modal"
+  div.querySelector("label").addEventListener("click", () => {
+    document
+      .querySelector("body")
+      .removeChild(document.querySelector(`.${newId}`));
   });
 };

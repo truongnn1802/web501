@@ -168,10 +168,12 @@ button.accordion.is-open + .accordion-content,
 button.accordion.is-open i {
   opacity: 1;
   visibility: visible;
+  height: auto;
 }
 button.accordion + .accordion-content{
   opacity: 0;
   visibility: hidden;
+  height: 0;
 }
 button.accordion i {
   font-size: 18px;
@@ -190,9 +192,8 @@ button.accordion.is-open {
   background-color: rgb(255, 255, 255);
   border-radius: 8px;
   padding: 10px;
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-in-out;
+  transition: height 0.2s ease-in-out;
 }
 
 .show-btn {
@@ -204,8 +205,7 @@ button.accordion.is-open {
   cursor: pointer;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-.show-btn,
-.modal-form {
+.show-btn{
   position: absolute;
   top: 50%;
   left: 50%;

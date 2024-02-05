@@ -9,6 +9,6 @@
 .pending{
     color: #ffb400 !important;
 }
-.success{
-    color: #56ca00 !important;
+.complete{
+    color: var(--complete-color);
 }

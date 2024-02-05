@@ -1,37 +1,25 @@
-import {
-  filterData,
-  getData,
-  postData,
-  removeData,
-  sortData,
-  uppdateData,
-} from "../constants/FirebaseContants.js";
-import OrderDetail from "../models/orderDetailModel copy.js";
+import { Http } from "../constants/config.js";
+import OrderDetail from "../models/orderDetailModel.js";
 
-class OrderDetailServices {
+class OrderDetailServices extends Http{
   constructor() {
-    this.collectionName = "order_detail";
+    super("order_detail")
   }
-  insertOrderDetail = async (order_id, product_id, quantity) => {
+  insert = async (order_id, product_id, quantity) => {
     const orderDetail = new OrderDetail(
-      null,
       order_id,
       product_id,
       quantity
     );
-    const res = postData(this.collectionName, orderDetail);
+    const res = await super.post( orderDetail);
     return res;
   };
-  getOrderDetails = async (valueName,fieldName="order_id",) => {
-    const res = await filterData(this.collectionName, fieldName, valueName);
+  getOrderDetails = async (orderId) => {
+    const res = await super.query({order_id:orderId});
     return res;
   };
-  getOrderDetailSort = async (fieldName,startAt=null,endAt=null) => {
-    const res = await sortData(this.collectionName, fieldName,startAt,endAt);
-    return res;
-  };
-  removeOrderDetail = (id) => {
-    const res = removeData(this.collectionName, id);
+  remove = (id) => {
+    const res = super.remove(id);
     return res;
   };
 }

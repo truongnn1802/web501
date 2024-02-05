@@ -1,23 +1,22 @@
-import { getData, postData, removeData } from "../constants/FirebaseContants.js";
+import { Http } from "../constants/config.js";
 import Category from "../models/categoryModel.js";
 
-class CategoryService {
+class CategoryService extends Http {
   constructor() {
-    this.collectionName = "categories";
+    super("categories");
   }
-  insertCategory = (name) => {
-    const category = new Category(null, name);
-    const res = postData(this.collectionName, category);
+  insert = async (name) => {
+    const category = new Category(name);
+    await super.post(category, true);
+  };
+  getAll = async () => {
+    const res = await super.get();
     return res;
   };
-  getAllCategory = async () => {
-    const res = await getData(this.collectionName);
+  remove = async (id) => {
+    const res = await super.remove(id, true);
     return res;
   };
-  removeCategory = (id) => {
-    const res = removeData(this.collectionName,id)
-    return res
-  }
 }
 
 export default CategoryService;

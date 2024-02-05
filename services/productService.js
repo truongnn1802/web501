@@ -1,20 +1,12 @@
-import {
-  filterData,
-  getData,
-  postData,
-  removeData,
-  sortData,
-  uppdateData,
-} from "../constants/FirebaseContants.js";
+import { Http } from "../constants/config.js";
 import Product from "../models/productModel.js";
 
-class ProductServices {
+class ProductServices extends Http {
   constructor() {
-    this.collectionName = "products";
+    super("products");
   }
   insertProduct = async (name, cate_id, price, detail, image, quantity) => {
     const product = new Product(
-      null,
       name,
       cate_id,
       price,
@@ -23,29 +15,39 @@ class ProductServices {
       quantity,
       0
     );
-    const res = postData(this.collectionName, product);
-    return res;
+    const res = await super.post(product, true);
   };
-  updateProduct = async (id,data) => {
-    console.log(data);
-    const res = uppdateData(this.collectionName + '/' + id, data);
+  updateProduct = async (id, data) => {
+    const res = super.update(id, data);
     return res;
   };
   getProduct = async (id = null) => {
-    return id
-      ? await getData(this.collectionName + "/" + id)
-      : await getData(this.collectionName);
-  };
-  getProductCate = async (valueName,fieldName="cate_id",) => {
-    const res = await filterData(this.collectionName, fieldName, valueName);
+    const res = await super.get(id);
     return res;
   };
-  getProductSort = async (fieldName,startAt=null,endAt=null) => {
-    const res = await sortData(this.collectionName, fieldName,startAt,endAt);
+  getProductQuery = async (query) => {
+    const res = await super.query(query, false);
+    return res;
+  };
+  sortProduct = async () => {
+    const res = await super.get();
+    const productsWithTotalSales = res.map((product) => ({
+      ...product,
+      totalSales: product.price * product.selled,
+    }));
+    // Sắp xếp mảng theo tổng tiền bán được giảm dần
+    const sortedProducts = productsWithTotalSales.sort(
+      (a, b) => b.totalSales - a.totalSales
+    );
+
+    return sortedProducts;
+  };
+  getProductSearch = async (search) => {
+    const res = await super.performSearch(search);
     return res;
   };
   removeProduct = (id) => {
-    const res = removeData(this.collectionName, id);
+    const res = super.remove(id, true);
     return res;
   };
 }

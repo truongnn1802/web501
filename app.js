@@ -55,6 +55,7 @@ export function showToast(content) {
   toast.style.display = "block";
   // Ẩn toast sau 3 giây (3000 milliseconds)
   setTimeout(function () {
-    toast.style.display = "none";
+    document.querySelector("body")
+      .removeChild(document.querySelector(`#myToast`))
   }, 3000);
 }
