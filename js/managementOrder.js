@@ -1,4 +1,4 @@
-import { toggleNav } from "../app.js";
+import { toggleNav } from "../js/app.js";
 import OrderService from "../services/orderService.js";
 import OrderDetailService from "../services/orderDetailService.js";
 import ProductService from "../services/productService.js";
@@ -8,6 +8,10 @@ const orderDetailService = new OrderDetailService();
 const productService = new ProductService();
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (JSON.parse(localStorage.getItem("account")).role != "admin") {
+    window.location.href = "/";
+  }
+  
   const toggleNavBtn = document.getElementById("toggle-nav-btn1");
   toggleNavBtn.addEventListener("click", () => {
     toggleNav();
@@ -106,7 +110,7 @@ const renModalComplete = (id) => {
     <div class="overlay"></div>
     <div class="modal-form">
       <label for="completemd" class="close-btn fas fa-times" title="close"></label>
-      <div class="p" style="margin: 20px; font-size: 18px; text-align: center;">Bạn đã giao xong đơn hàng?</div>
+      <div class="p" style="margin: 20px; font-size: 18px; text-align: center;">Đơn hàng đã được hoàn thành?</div>
       <div class="btn">
         <button type="button" id="btn-complete" style="background-color: var(--complete-color);">Hoàn thành</button>
       </div>

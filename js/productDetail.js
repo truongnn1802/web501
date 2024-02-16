@@ -6,6 +6,9 @@ const shopCartService = new ShopCartService();
 const productDetail = JSON.parse(localStorage.getItem("product"));
 let currentProducts = [];
 document.addEventListener("DOMContentLoaded", (event) => {
+  if (JSON.parse(localStorage.getItem("account")).role != "user") {
+    window.location.href = "/";
+  }
   showDetailProduct();
   handleGetProductsCate();
   handleCountShopCart();

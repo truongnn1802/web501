@@ -1,51 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-  <link rel="stylesheet" href="../styles/reset.css"/>
-  <link rel="stylesheet" href="../styles/index.css"/>
-  <link rel="stylesheet" href="../styles/modal.css"/>
-  <link rel="stylesheet" href="../styles/historySearch.css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link rel="stylesheet" href="../styles/reset.css" />
+  <link rel="stylesheet" href="../styles/index.css" />
+  <link rel="stylesheet" href="../styles/modal.css" />
+  <link rel="stylesheet" href="../styles/historySearch.css" />
   <title>Poly shop - thanh toán</title>
-  
+
 </head>
+
 <body>
-   
-<div class="container mt-3">
+
+  <div class="container mt-3">
     <!-- Danh sách sản phẩm -->
     <div class="list-product">
       <div class="d-flex" style="justify-content: space-between;align-items: center;">
         <h2 class="mb-4">Sản phẩm đã thêm</h2>
-       <span>Đã chọn: <strong class="count-choose">0</strong></span>
+        <span>Đã chọn: <strong class="count-choose">0</strong></span>
       </div>
       <div class="list-product-added card" style="margin-bottom: 20px;">
-          <div class="table-responsive">
-            <table class="table">
-              <thead class="table-light">
-                <tr>
-                  <th class="text-truncate"></th>
-                  <th class="text-truncate">Mã sản phẩm</th>
-                  <th class="text-truncate">Tên sản phẩm</th>
-                  <th class="text-truncate">Hình ảnh</th>
-                  <th class="text-truncate">Giá sản phẩm</th>
-                  <th class="text-truncate">Số lượng</th>
-                  <th class="text-truncate">Tổng</th>
-                  <th class="text-truncate"></th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="table-light">
+              <tr>
+                <th class="text-truncate"></th>
+                <th class="text-truncate">Mã sản phẩm</th>
+                <th class="text-truncate">Tên sản phẩm</th>
+                <th class="text-truncate">Hình ảnh</th>
+                <th class="text-truncate">Giá sản phẩm</th>
+                <th class="text-truncate">Số lượng</th>
+                <th class="text-truncate">Tổng</th>
+                <th class="text-truncate"></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
+      
       <div class="d-flex" style="justify-content: center;">
-        <a class="btn btn-primary" data-bs-toggle="modal" href="" role="button" style="background-color: #ccc;border:none">Thanh toán</a>
+        <a class="btn btn-primary" data-bs-toggle="modal" href="" role="button"
+          style="background-color: #ccc;border:none">Thanh toán</a>
       </div>
 
-      <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="d-flex" style="justify-content: space-between;align-items: center;">
+        <h2 class="mt-4">Sản phẩm đã đặt</h2>
+      </div>
+      <div class="list-product-buyed card" style="margin-top: 20px;">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="table-light">
+              <tr>
+                <th class="text-truncate">Mã sản phẩm</th>
+                <th class="text-truncate">Tên sản phẩm</th>
+                <th class="text-truncate">Hình ảnh</th>
+                <th class="text-truncate">Giá sản phẩm</th>
+                <th class="text-truncate">Số lượng</th>
+                <th class="text-truncate">Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -58,18 +86,16 @@
                 <h3 class="modal-warning">Nhập đủ dữ liệu</h3>
                 <div class="data mb-2">
                   <label>Tên khách hàng</label>
-                  <input type="text" id="custom-name" style="height: 40px;"/>
+                  <input type="text" id="custom-name" style="height: 40px;" />
                 </div>
                 <div class="data mb-2">
                   <label>Địa chỉ</label>
-                  <input type="text" id="custom-address" style="height: 40px;"/>
+                  <input type="text" id="custom-address" style="height: 40px;" />
 
                 </div>
-                <div
-                  class="data"
-                >
+                <div class="data">
                   <label>Số điện thoại</label>
-                  <input type="text" id="custom-phoneN" style="height: 40px;"/>
+                  <input type="text" id="custom-phoneN" style="height: 40px;" />
                 </div>
               </form>
               <h3 style="font-size: 18px;margin-top: 20px;">Thông tin đơn hàng</h3>
@@ -85,10 +111,11 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../app.js" type="module"></script>
-<script src="../js/shopCart.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/app.js" type="module"></script>
+  <script src="../js/shopCart.js" type="module"></script>
 </body>
+
 </html>

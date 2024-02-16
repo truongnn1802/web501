@@ -1,17 +1,20 @@
 import CategoryService from "../services/categoryService.js";
 import ProductServices from "../services/productService.js";
-import { convertDbToList, toggleNav } from "../app.js";
+import { toggleNav } from "../js/app.js";
 
 const categoryService = new CategoryService();
 const productService = new ProductServices();
 let idCate = null;
 
+if (JSON.parse(localStorage.getItem("account")).role != "admin") {
+  window.location.href = "/";
+}
+
 const handleGetAllCate = async () => {
   const listCateTag = document.getElementById("list-cate");
   const getAllCate = await categoryService.getAll();
-  const listCate = convertDbToList(getAllCate);
   let list = ``;
-  for (let category of listCate) {
+  for (let category of getAllCate) {
     list += `
     <button class="accordion" data-id=${category.id}>
     ${category.name}

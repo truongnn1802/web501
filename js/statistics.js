@@ -1,4 +1,4 @@
-import { toggleNav } from "../app.js";
+import { toggleNav } from "../js/app.js";
 import CategorytService from "../services/categoryService.js";
 import ProductService from "../services/productService.js";
 
@@ -6,6 +6,10 @@ const categorytService = new CategorytService();
 const productService = new ProductService();
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (JSON.parse(localStorage.getItem("account")).role != "admin") {
+    window.location.href = "/";
+  }
+  
   const toggleNavBtn = document.getElementById("toggle-nav-btn2");
 
   toggleNavBtn.addEventListener("click", () => {

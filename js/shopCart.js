@@ -11,11 +11,16 @@ const orderDetailService = new OrderDetailServices();
 let countCheck = 0;
 let arrChoose = [];
 let pay = 0;
-
+const account = JSON.parse(localStorage.getItem("account"));
 const spanCount = document.querySelector(".count-choose");
 
 document.addEventListener("DOMContentLoaded", (event) => {
+  if (JSON.parse(localStorage.getItem("account")).role != "user") {
+    window.location.href = "/";
+  }
   handleProductsAdd();
+  handleProductsBuyed();
+
   const customName = document.getElementById("custom-name");
   const customAddress = document.getElementById("custom-address");
   const customPhoneN = document.getElementById("custom-phoneN");
@@ -27,6 +32,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       customAddress.style = "border-color:#c0c0c0;height: 40px;";
       customPhoneN.style = "border-color:#c0c0c0;height: 40px;";
       const idOrder = await orderService.insert(
+        account.id,
         customName.value,
         customAddress.value,
         customPhoneN.value,
@@ -39,7 +45,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
           selled: prd.selled + order.amount,
         });
         await shopCartService.remove(order.id);
-        orderDetailService.insert(idOrder.id, order.idProduct, order.amount);
+
+        orderDetailService.insert(
+          idOrder.id,
+          order.idProduct,
+          account.id,
+          order.amount
+        );
         handleProductsAdd();
       }
       pay = 0;
@@ -87,11 +99,11 @@ const handleProductsAdd = async () => {
     src="${product?.image}" 
     style='width:60px; height:auto '
     alt="${product?.name}"/></td>
-    <td class="text-truncate">${Number(product?.price).toLocaleString()}đ</td>
+    <td class="text-truncate">${Number(product?.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
     <td class="text-truncate">${prd.amount}</td>
     <td class="text-truncate">${Number(
       product.price * prd.amount
-    ).toLocaleString()}đ</td>
+    ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
     <td class="text-truncate"><i class="fas fa-trash" data-id=${
       prd.id
     } style='cursor:pointer'></i></td>
@@ -99,7 +111,7 @@ const handleProductsAdd = async () => {
     `;
   }
 
-  const divProductList = document.querySelector("tbody");
+  const divProductList = document.querySelector(".list-product-added tbody");
   divProductList.innerHTML = products;
 
   document.querySelectorAll("td > input").forEach((cb, index) => {
@@ -141,6 +153,35 @@ const handleProductsAdd = async () => {
   });
 };
 
+const handleProductsBuyed = async () => {
+  let listProduct = await orderDetailService.query({ customer_id: account.id });
+  let products = ``;
+  for (let prd of listProduct) {
+    let product = await productService.getProduct(prd.product_id);
+    products += `   
+    <tr>
+      <td>${product.id}</td>
+      <td class="text-truncate">${product?.name}</td>
+      <td class="text-truncate"><img
+      src="${product?.image}" 
+      style='width:60px; height:auto '
+      alt="${product?.name}"/></td>
+      <td class="text-truncate">${Number(product?.price).toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      })}</td>
+      <td class="text-truncate">${prd.quantity}</td>
+      <td class="text-truncate">${Number(
+        product.price * prd.quantity
+      ).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+      </td>
+    </tr>
+    `;
+  }
+
+  const divProductList = document.querySelector(".list-product-buyed tbody");
+  divProductList.innerHTML = products;
+};
 const renModalDelete = async (id) => {
   const newId = `m-${id}`;
   const div = document.createElement("div");

@@ -1,4 +1,9 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem("account")) {
+    window.location.href = "/";
+    return;
+  }
   let inputSearch = document.getElementById("input-search");
   let searchHistory = document.getElementById("search__history");
 
@@ -22,7 +27,14 @@ export const toggleNav = () => {
     closeNav();
   }
 };
-
+// convert data of Json server to Array
+export const convertDbToList = (data) => {
+  const arr = [];
+  for (let property in data) {
+    arr.push({ key: property, ...data[property] });
+  }
+  return arr;
+};
 const openNav = () => {
   navBar.classList.remove("nav-min");
   navBar.classList.add("nav-max");
@@ -34,28 +46,3 @@ const closeNav = () => {
   navBar.classList.add("nav-min");
   rootStyle.setProperty("--width-nav", "80px");
 };
-// convert data of Json server to Array
-export const convertDbToList = (data) => {
-  const arr = [];
-  for (let property in data) {
-    arr.push({ key: property, ...data[property] });
-  }
-  return arr;
-};
-
-// Toast
-export function showToast(content) {
-  const div = document.createElement("div");
-  div.setAttribute("id", "myToast");
-  div.setAttribute("class", "toast");
-  div.innerHTML = content;
-  document.querySelector("body").append(div);
-  var toast = document.getElementById("myToast");
-  // Hiển thị toast
-  toast.style.display = "block";
-  // Ẩn toast sau 3 giây (3000 milliseconds)
-  setTimeout(function () {
-    document.querySelector("body")
-      .removeChild(document.querySelector(`#myToast`))
-  }, 3000);
-}

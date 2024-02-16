@@ -1,4 +1,4 @@
-import { convertDbToList } from "../app.js";
+import { convertDbToList } from "./app.js";
 import CategoryService from "../services/categoryService.js";
 import ProductServices from "../services/productService.js";
 import ShopCartService from "../services/shopCartService.js";
@@ -10,14 +10,23 @@ const shopCartService = new ShopCartService();
 let currentProducts = [];
 
 const query = {};
-
 document.addEventListener("DOMContentLoaded", async () => {
+  if (JSON.parse(localStorage.getItem("account")).role != "user") {
+    window.location.href = "/";
+  }
   handleGetAllCategory();
   handleGetProducts(null);
   handleCountShopCart();
   handleSearch();
   handleFilter();
   handleSort();
+  document.getElementById("account").textContent = JSON.parse(
+    localStorage.getItem("account")
+  ).username;
+  document.getElementById("sign-out").addEventListener("click", () => {
+    window.location.href = "/";
+    localStorage.removeItem("account");
+  });
 });
 
 const handleCountShopCart = async () => {

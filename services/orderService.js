@@ -7,12 +7,15 @@ class OrderServices extends Http{
     super("order")
   }
   insert = async (
+    customer_id,
     customer_name,
     customer_address,
     customer_phone,
     status
   ) => {
+    console.log(customer_id);
     const order = new Order(
+      customer_id,
       customer_name,
       customer_address,
       customer_phone,

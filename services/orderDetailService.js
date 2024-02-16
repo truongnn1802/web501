@@ -5,10 +5,11 @@ class OrderDetailServices extends Http{
   constructor() {
     super("order_detail")
   }
-  insert = async (order_id, product_id, quantity) => {
+  insert = async (order_id, product_id,customer_id, quantity) => {
     const orderDetail = new OrderDetail(
       order_id,
       product_id,
+      customer_id,
       quantity
     );
     const res = await super.post( orderDetail);

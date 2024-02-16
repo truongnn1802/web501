@@ -1,5 +1,4 @@
-import { baseUrl } from "./constant.js";
-import { showToast } from "../app.js";
+import { baseUrl,showToast } from "./constant.js";
 
 export class Http {
   constructor(endpoint) {
